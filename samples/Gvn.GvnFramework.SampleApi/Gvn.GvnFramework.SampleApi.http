@@ -1,0 +1,6 @@
+@Gvn.GvnFramework.SampleApi_HostAddress = http://localhost:5204
+
+GET {{Gvn.GvnFramework.SampleApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

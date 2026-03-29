@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.Core\Gvn.GvnFramework.Core.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.Domain\Gvn.GvnFramework.Domain.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.Application\Gvn.GvnFramework.Application.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.EntityFramewokCore\Gvn.GvnFramework.EntityFramewokCore.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.AspNetCore\Gvn.GvnFramework.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.Security\Gvn.GvnFramework.Security.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.Logging\Gvn.GvnFramework.Logging.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.Caching\Gvn.GvnFramework.Caching.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.BackgroundJobs\Gvn.GvnFramework.BackgroundJobs.csproj" />
+    <ProjectReference Include="..\..\framework\src\Gvn.GvnFramework.Swagger\Gvn.GvnFramework.Swagger.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>
