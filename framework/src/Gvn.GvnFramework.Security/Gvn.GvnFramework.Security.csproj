@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
+        <Description>JWT authentication, BCrypt password hashing and current user service</Description>
         <LangVersion>14</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>

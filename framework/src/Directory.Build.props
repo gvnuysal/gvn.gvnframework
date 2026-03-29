@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix>preview</VersionSuffix>
+    <Authors>Güven Uysal</Authors>
+    <Company>Gvn</Company>
+    <Copyright>Copyright © Gvn 2025</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/gvnuysal/gvn.gvnframework</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gvnuysal/gvn.gvnframework</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>clean-architecture;dotnet;framework;gvn</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>true</IsPackable>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+</Project>

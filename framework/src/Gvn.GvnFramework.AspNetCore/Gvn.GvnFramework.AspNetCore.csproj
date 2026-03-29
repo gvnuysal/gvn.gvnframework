@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
+        <Description>API controller base, exception handling and correlation ID middleware</Description>
         <LangVersion>14</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>

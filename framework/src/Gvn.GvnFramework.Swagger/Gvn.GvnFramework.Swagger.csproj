@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
+        <Description>OpenAPI document generation with Scalar UI and JWT security scheme</Description>
         <LangVersion>14</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
