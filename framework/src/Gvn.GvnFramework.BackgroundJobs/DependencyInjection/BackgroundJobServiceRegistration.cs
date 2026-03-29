@@ -1,8 +1,14 @@
 using Gvn.GvnFramework.BackgroundJobs.Abstractions;
+using Gvn.GvnFramework.BackgroundJobs.Authorization;
 using Gvn.GvnFramework.BackgroundJobs.Configuration;
 using Gvn.GvnFramework.BackgroundJobs.Implementations;
 using Hangfire;
+using Hangfire.Console;
+using Hangfire.Dashboard;
+using Hangfire.Heartbeat;
 using Hangfire.InMemory;
+using Hangfire.RecurringJobAdmin;
+using Hangfire.Tags;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +23,8 @@ public static class BackgroundJobServiceRegistration
         var options = new HangfireOptions();
         configure?.Invoke(options);
 
+        services.AddSingleton(options);
+
         services.AddHangfire(config =>
         {
             config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);
@@ -25,6 +33,18 @@ public static class BackgroundJobServiceRegistration
 
             if (options.UseInMemory)
                 config.UseInMemoryStorage();
+
+            if (options.UseConsole)
+                config.UseConsole();
+
+            if (options.UseTags)
+                config.UseTags(new TagsOptions { TagsListStyle = TagsListStyle.Dropdown });
+
+            if (options.UseHeartbeat)
+                config.UseHeartbeatPage(checkInterval: TimeSpan.FromSeconds(10));
+
+            if (options.UseRecurringJobAdmin)
+                config.UseRecurringJobAdmin();
         });
 
         services.AddHangfireServer(serverOptions =>
@@ -41,10 +61,25 @@ public static class BackgroundJobServiceRegistration
         this IApplicationBuilder app,
         string path = "/hangfire")
     {
-        app.UseHangfireDashboard(path, new DashboardOptions
+        var options = app.ApplicationServices.GetService<HangfireOptions>() ?? new HangfireOptions();
+
+        var dashboardOptions = new DashboardOptions
         {
-            AppPath = null
-        });
+            AppPath = null,
+            DashboardTitle = "Gvn.GvnFramework — Hangfire Dashboard"
+        };
+
+        if (!string.IsNullOrWhiteSpace(options.DashboardUsername) &&
+            !string.IsNullOrWhiteSpace(options.DashboardPassword))
+        {
+            dashboardOptions.Authorization =
+            [
+                new HangfireDashboardAuthorizationFilter(options.DashboardUsername, options.DashboardPassword)
+            ];
+        }
+
+        app.UseHangfireDashboard(path, dashboardOptions);
+
         return app;
     }
 }
