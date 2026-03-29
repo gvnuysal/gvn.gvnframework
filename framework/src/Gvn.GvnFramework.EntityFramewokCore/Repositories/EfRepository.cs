@@ -10,8 +10,10 @@ namespace Gvn.GvnFramework.EntityFramewokCore.Repositories;
 /// full CRUD operations for a domain entity.
 /// </summary>
 /// <typeparam name="T">The entity type, which must derive from <see cref="Entity"/>.</typeparam>
-public class EfRepository<T>(GvnDbContext context) : IRepository<T>
+/// <typeparam name="TContext">The concrete <see cref="DbContext"/> type derived from <see cref="GvnDbContext{TContext}"/>.</typeparam>
+public class EfRepository<T, TContext>(TContext context) : IRepository<T>
     where T : Entity
+    where TContext : DbContext
 {
     /// <summary>The EF Core <see cref="DbSet{T}"/> used to interact with the entity table.</summary>
     protected readonly DbSet<T> DbSet = context.Set<T>();

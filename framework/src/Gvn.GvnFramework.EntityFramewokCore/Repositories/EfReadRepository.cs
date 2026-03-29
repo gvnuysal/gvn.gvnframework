@@ -12,8 +12,10 @@ namespace Gvn.GvnFramework.EntityFramewokCore.Repositories;
 /// no-tracking queries for read-only operations.
 /// </summary>
 /// <typeparam name="T">The entity type, which must derive from <see cref="Entity"/>.</typeparam>
-public class EfReadRepository<T>(GvnDbContext context) : IReadRepository<T>
+/// <typeparam name="TContext">The concrete <see cref="DbContext"/> type derived from <see cref="GvnDbContext{TContext}"/>.</typeparam>
+public class EfReadRepository<T, TContext>(TContext context) : IReadRepository<T>
     where T : Entity
+    where TContext : DbContext
 {
     /// <summary>A no-tracking queryable over the entity set.</summary>
     protected readonly IQueryable<T> Query = context.Set<T>().AsNoTracking();

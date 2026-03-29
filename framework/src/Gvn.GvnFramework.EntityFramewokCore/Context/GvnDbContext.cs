@@ -12,8 +12,10 @@ namespace Gvn.GvnFramework.EntityFramewokCore.Context;
 /// soft-delete interception, and domain event dispatching on <see cref="SaveChangesAsync"/>.
 /// Derive from this class for each bounded context's concrete DbContext.
 /// </summary>
-public abstract class GvnDbContext(DbContextOptions options, IMediator? mediator = null)
+/// <typeparam name="TContext">The concrete DbContext type. Used to resolve the strongly-typed <see cref="DbContextOptions{TContext}"/>.</typeparam>
+public abstract class GvnDbContext<TContext>(DbContextOptions<TContext> options, IMediator? mediator = null)
     : DbContext(options)
+    where TContext : DbContext
 {
     /// <summary>
     /// Saves all pending changes to the database. Before saving, sets audit fields and
@@ -95,7 +97,7 @@ public abstract class GvnDbContext(DbContextOptions options, IMediator? mediator
             if (!typeof(ISoftDeletable).IsAssignableFrom(entityType.ClrType))
                 continue;
 
-            var method = typeof(GvnDbContext)
+            var method = typeof(GvnDbContext<TContext>)
                 .GetMethod(nameof(SetSoftDeleteQueryFilter),
                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
                 .MakeGenericMethod(entityType.ClrType);
