@@ -4,8 +4,18 @@ using Serilog.Events;
 
 namespace Gvn.GvnFramework.Logging.Configuration;
 
+/// <summary>
+/// Provides a default Serilog logger configuration for GvnFramework applications.
+/// </summary>
 public static class SerilogConfiguration
 {
+    /// <summary>
+    /// Creates a <see cref="LoggerConfiguration"/> with sensible defaults:
+    /// console and rolling-file sinks, machine name/thread ID enrichers, and suppressed Microsoft/System noise.
+    /// </summary>
+    /// <param name="configuration">The application configuration used to override Serilog settings.</param>
+    /// <param name="applicationName">The application name attached to every log event as the <c>Application</c> property.</param>
+    /// <returns>A fully configured <see cref="LoggerConfiguration"/> instance ready to create a logger.</returns>
     public static LoggerConfiguration CreateDefaultConfiguration(
         IConfiguration configuration,
         string applicationName)

@@ -3,8 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gvn.GvnFramework.EntityFramewokCore.Specifications;
 
+/// <summary>
+/// Translates a <see cref="Specification{T}"/> into an EF Core <see cref="IQueryable{T}"/>
+/// by applying criteria, eager-load includes, ordering, and paging.
+/// </summary>
 public static class SpecificationEvaluator
 {
+    /// <summary>
+    /// Builds a queryable from a base query and a specification, applying all
+    /// criteria, includes, ordering, and paging defined by the specification.
+    /// </summary>
+    /// <typeparam name="T">The entity type.</typeparam>
+    /// <param name="inputQuery">The base queryable to apply the specification to.</param>
+    /// <param name="specification">The specification that defines the query shape.</param>
+    /// <returns>An <see cref="IQueryable{T}"/> with all specification settings applied.</returns>
     public static IQueryable<T> GetQuery<T>(IQueryable<T> inputQuery, Specification<T> specification)
         where T : Entity
     {

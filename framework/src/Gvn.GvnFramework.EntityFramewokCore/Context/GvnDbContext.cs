@@ -7,9 +7,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gvn.GvnFramework.EntityFramewokCore.Context;
 
+/// <summary>
+/// Abstract base DbContext for the framework. Automatically handles audit field population,
+/// soft-delete interception, and domain event dispatching on <see cref="SaveChangesAsync"/>.
+/// Derive from this class for each bounded context's concrete DbContext.
+/// </summary>
 public abstract class GvnDbContext(DbContextOptions options, IMediator? mediator = null)
     : DbContext(options)
 {
+    /// <summary>
+    /// Saves all pending changes to the database. Before saving, sets audit fields and
+    /// converts hard deletes to soft deletes for <see cref="ISoftDeletable"/> entities.
+    /// After saving, dispatches any domain events collected from aggregate roots.
+    /// </summary>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The number of state entries written to the store.</returns>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         SetAuditFields();
@@ -65,6 +77,11 @@ public abstract class GvnDbContext(DbContextOptions options, IMediator? mediator
             await mediator!.Publish(domainEvent, cancellationToken);
     }
 
+    /// <summary>
+    /// Configures the model, applying global soft-delete query filters for all
+    /// <see cref="ISoftDeletable"/> entity types.
+    /// </summary>
+    /// <param name="modelBuilder">The builder used to construct the model.</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

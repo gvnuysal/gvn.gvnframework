@@ -8,8 +8,18 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Gvn.GvnFramework.Security.DependencyInjection;
 
+/// <summary>
+/// Extension methods for registering security services into the DI container.
+/// </summary>
 public static class SecurityServiceRegistration
 {
+    /// <summary>
+    /// Registers JWT authentication, authorization, <see cref="ITokenService"/>,
+    /// <see cref="IPasswordHasher"/>, and <see cref="ICurrentUserService"/> using the provided configuration action.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="configure">A delegate to configure <see cref="JwtOptions"/>.</param>
+    /// <returns>The configured <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddGvnSecurity(
         this IServiceCollection services,
         Action<JwtOptions> configure)

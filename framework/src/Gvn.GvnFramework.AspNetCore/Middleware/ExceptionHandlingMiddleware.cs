@@ -5,8 +5,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Gvn.GvnFramework.AspNetCore.Middleware;
 
+/// <summary>
+/// ASP.NET Core middleware that catches unhandled exceptions and converts them to
+/// RFC 7807 problem-details JSON responses with appropriate HTTP status codes.
+/// </summary>
 public sealed class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {
+    /// <summary>
+    /// Invokes the middleware, delegating to the next component in the pipeline.
+    /// Catches any unhandled exception and writes a structured error response.
+    /// </summary>
+    /// <param name="context">The current HTTP context.</param>
     public async Task InvokeAsync(HttpContext context)
     {
         try

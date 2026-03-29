@@ -8,10 +8,15 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Gvn.GvnFramework.Security.Implementations;
 
+/// <summary>
+/// JWT Bearer token implementation of <see cref="ITokenService"/>.
+/// Generates and validates tokens signed with HMAC-SHA256 using the configured secret.
+/// </summary>
 public sealed class JwtTokenService(IOptions<JwtOptions> options) : ITokenService
 {
     private readonly JwtOptions _options = options.Value;
 
+    /// <inheritdoc />
     public string GenerateToken(IEnumerable<Claim> claims)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
@@ -27,6 +32,7 @@ public sealed class JwtTokenService(IOptions<JwtOptions> options) : ITokenServic
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
+    /// <inheritdoc />
     public ClaimsPrincipal? ValidateToken(string token)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));

@@ -3,8 +3,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Gvn.GvnFramework.EntityFramewokCore.Outbox;
 
+/// <summary>
+/// EF Core fluent configuration for the <see cref="OutboxMessage"/> entity.
+/// Defines table name, column constraints, and indexes.
+/// </summary>
 public sealed class OutboxConfiguration : IEntityTypeConfiguration<OutboxMessage>
 {
+    /// <summary>
+    /// Configures the <see cref="OutboxMessage"/> entity type.
+    /// </summary>
+    /// <param name="builder">The builder used to configure the entity type.</param>
     public void Configure(EntityTypeBuilder<OutboxMessage> builder)
     {
         builder.ToTable("OutboxMessages");

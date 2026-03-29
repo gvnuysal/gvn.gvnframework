@@ -4,8 +4,20 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Gvn.GvnFramework.DepedencyInjection.Extensions;
 
+/// <summary>
+/// Extension methods on <see cref="IServiceCollection"/> for advanced service registration patterns.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Scans <paramref name="assembly"/> for all concrete types that implement <typeparamref name="TInterface"/>
+    /// and registers each one against its own direct interfaces (excluding <typeparamref name="TInterface"/> itself).
+    /// </summary>
+    /// <typeparam name="TInterface">The marker interface used to locate implementations.</typeparam>
+    /// <param name="services">The service collection to register into.</param>
+    /// <param name="assembly">The assembly to scan.</param>
+    /// <param name="lifetime">The service lifetime for all discovered registrations. Defaults to <see cref="ServiceLifetime.Scoped"/>.</param>
+    /// <returns>The configured <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection RegisterAllImplementations<TInterface>(
         this IServiceCollection services,
         Assembly assembly,
@@ -24,6 +36,17 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Wraps the existing <typeparamref name="TInterface"/> registration with a <typeparamref name="TDecorator"/>.
+    /// The decorator receives the original service as a constructor parameter.
+    /// </summary>
+    /// <typeparam name="TInterface">The service type to decorate. Must already be registered.</typeparam>
+    /// <typeparam name="TDecorator">The decorator type. Must implement <typeparamref name="TInterface"/>.</typeparam>
+    /// <param name="services">The service collection to update.</param>
+    /// <returns>The configured <see cref="IServiceCollection"/>.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when <typeparamref name="TInterface"/> is not registered in <paramref name="services"/>.
+    /// </exception>
     public static IServiceCollection Decorate<TInterface, TDecorator>(
         this IServiceCollection services)
         where TDecorator : class, TInterface

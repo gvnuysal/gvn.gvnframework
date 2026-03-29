@@ -14,8 +14,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Gvn.GvnFramework.BackgroundJobs.DependencyInjection;
 
+/// <summary>
+/// Extension methods for registering Hangfire background job services into the DI container.
+/// </summary>
 public static class BackgroundJobServiceRegistration
 {
+    /// <summary>
+    /// Registers Hangfire storage, server, optional extensions (Console, Tags, Heartbeat, RecurringJobAdmin),
+    /// and <see cref="IBackgroundJobService"/> using the provided configuration action.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="configure">An optional delegate to configure <see cref="HangfireOptions"/>.</param>
+    /// <returns>The configured <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddGvnBackgroundJobs(
         this IServiceCollection services,
         Action<HangfireOptions>? configure = null)
@@ -57,6 +67,14 @@ public static class BackgroundJobServiceRegistration
         return services;
     }
 
+    /// <summary>
+    /// Mounts the Hangfire dashboard at the specified path.
+    /// Applies basic-auth protection when <see cref="HangfireOptions.DashboardUsername"/> and
+    /// <see cref="HangfireOptions.DashboardPassword"/> are configured.
+    /// </summary>
+    /// <param name="app">The application builder.</param>
+    /// <param name="path">The URL path to mount the dashboard on. Defaults to <c>"/hangfire"</c>.</param>
+    /// <returns>The configured <see cref="IApplicationBuilder"/>.</returns>
     public static IApplicationBuilder UseGvnHangfireDashboard(
         this IApplicationBuilder app,
         string path = "/hangfire")
