@@ -7,3 +7,8 @@ riderModule.iml
 **/.DS_Store
 *.user
 .idea/
+
+# NuGet artifacts
+artifacts/
+*.nupkg
+*.snupkg
